@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:modelstore/pages/auth/auth_page.dart';
+import 'package:modelstore/utilities/auth/auth_gate.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const AuthPage(),
+      home: const AuthGate(),
     );
   }
 }
