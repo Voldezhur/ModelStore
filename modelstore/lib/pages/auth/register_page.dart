@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:modelstore/utilities/auth/auth_service.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
