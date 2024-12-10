@@ -113,6 +113,23 @@ class ApiService {
 //     }
 //   }
 
+  // Добавить пользователя
+  void addUser(newUser) async {
+    try {
+      final response = await dio.post(
+        'http://10.0.2.2:8080/users/create',
+        data: newUser,
+      );
+      if (response.statusCode != 201) {
+        throw Exception(
+          'Failed to add item, status code ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      throw Exception('could not add item: $e');
+    }
+  }
+
   // Найти пользователя по имени пользователя
   Future<User> getUserByUsername(username) async {
     try {

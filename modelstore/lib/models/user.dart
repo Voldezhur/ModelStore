@@ -15,4 +15,4 @@ class User {
   }
 }
 
-late User currentUser;
+late User? currentUser;

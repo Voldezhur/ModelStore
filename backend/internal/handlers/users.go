@@ -94,3 +94,29 @@ func GetUserByEmail(db *sqlx.DB) gin.HandlerFunc {
 		c.JSON(http.StatusOK, user)
 	}
 }
+
+// Создание нового пользователя
+func CreateUser(db *sqlx.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var user models.User
+		if err := c.ShouldBindJSON(&user); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Некорректные данные"})
+			return
+		}
+
+		query := `INSERT INTO users (username, email) 
+                  VALUES (:username, :email) RETURNING user_id`
+
+		rows, err := db.NamedQuery(query, &user)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка добавления пользователя"})
+			return
+		}
+		if rows.Next() {
+			rows.Scan(&user.UserID) // Присваиваем ID нового пользователя
+		}
+		rows.Close()
+
+		c.JSON(http.StatusCreated, user)
+	}
+}

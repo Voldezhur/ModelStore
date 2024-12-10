@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:modelstore/models/user.dart';
 import 'package:modelstore/pages/auth/register_page.dart';
-import 'package:modelstore/utilities/api_handling/api_service.dart';
 import 'package:modelstore/utilities/auth/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
@@ -28,7 +26,6 @@ class _LoginPageState extends State<LoginPage> {
     // Попытка авторизации
     try {
       await authService.signInEmailPassword(email, password);
-      currentUser = await ApiService().getUserByEmail(email);
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

@@ -68,7 +68,7 @@ func main() {
 	router.GET("/users/:id", handlers.GetUserById(db))
 	router.GET("/users/username/:username", handlers.GetUserByUsername(db))
 	router.GET("/users/email/:email", handlers.GetUserByEmail(db))
-
+	router.POST("/users/create", handlers.CreateUser(db))
 
 	// Запуск сервера
 	router.Run(":8080")

@@ -1,3 +1,4 @@
+import 'package:modelstore/utilities/api_handling/api_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthService {
@@ -13,6 +14,10 @@ class AuthService {
   // Sign up email password
   Future<AuthResponse> signUpEmailPassword(
       String email, String password) async {
+    ApiService().addUser({
+      "username": email,
+      "email": email,
+    });
     return await _supabase.auth.signUp(email: email, password: password);
   }
 

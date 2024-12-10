@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modelstore/models/user.dart';
 import 'package:modelstore/utilities/auth/auth_service.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -24,6 +25,11 @@ class _MyWidgetState extends State<ProfilePage> {
       body: Center(
           child: Column(
         children: [
+          Row(
+            children: [
+              Text(currentUser!.username),
+            ],
+          ),
           ElevatedButton(
             onPressed: _logout,
             child: const Text('Выйти из аккаунта'),
