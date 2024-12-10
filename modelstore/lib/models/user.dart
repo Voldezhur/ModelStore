@@ -1,9 +1,18 @@
 class User {
   final int userId;
-  final String email;
   final String username;
+  final String email;
 
-  User(this.userId, this.email, this.username);
+  User(this.userId, this.username, this.email);
+
+  // Для того, чтобы можно было создавать объекты из JSON
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      json['user_id'],
+      json['username'],
+      json['email'],
+    );
+  }
 }
 
 late User currentUser;

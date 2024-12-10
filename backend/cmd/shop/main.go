@@ -67,6 +67,7 @@ func main() {
 	router.GET("/users", handlers.GetUsers(db))
 	router.GET("/users/:id", handlers.GetUserById(db))
 	router.GET("/users/username/:username", handlers.GetUserByUsername(db))
+	router.GET("/users/email/:email", handlers.GetUserByEmail(db))
 
 
 	// Запуск сервера

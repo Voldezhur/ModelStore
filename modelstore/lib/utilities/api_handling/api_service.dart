@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:modelstore/models/item.dart';
+import 'package:modelstore/models/user.dart';
 
 class ApiService {
   final Dio dio = Dio();
@@ -113,12 +114,27 @@ class ApiService {
 //   }
 
   // Найти пользователя по имени пользователя
-  Future<Item> getUserByUsername(username) async {
+  Future<User> getUserByUsername(username) async {
     try {
-      final response = await dio.get('$url/users/$username');
+      final response = await dio.get('$url/users/username/$username');
       if (response.statusCode == 200) {
-        Item item = Item.fromJson(response.data);
-        return item;
+        User user = User.fromJson(response.data);
+        return user;
+      } else {
+        throw Exception('Failed to load item');
+      }
+    } catch (e) {
+      throw Exception('Error fetching user: $e');
+    }
+  }
+
+  // Найти пользователя по электронной почте
+  Future<User> getUserByEmail(email) async {
+    try {
+      final response = await dio.get('$url/users/email/$email');
+      if (response.statusCode == 200) {
+        User user = User.fromJson(response.data);
+        return user;
       } else {
         throw Exception('Failed to load item');
       }

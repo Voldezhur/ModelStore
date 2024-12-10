@@ -73,3 +73,24 @@ func GetUserByUsername(db *sqlx.DB) gin.HandlerFunc {
 		c.JSON(http.StatusOK, user)
 	}
 }
+
+// Получение одного пользователя по его электронной почте
+func GetUserByEmail(db *sqlx.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		email := strings.TrimSpace(c.Param("email"))
+		if email == "" {
+			log.Println("Параметр email пуст")
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Email отсутствует"})
+			return
+		}
+		log.Printf("Полученный параметр email: '%s'", email)
+
+		var user models.User
+		err := db.Get(&user, "SELECT * FROM users WHERE email = $1", email)
+		if err != nil {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Пользователь не найден"})
+			return
+		}
+		c.JSON(http.StatusOK, user)
+	}
+}
