@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:modelstore/models/item.dart';
+import 'package:modelstore/models/user.dart';
 import 'package:modelstore/utilities/api_handling/api_service.dart';
 
 class ItemPage extends StatefulWidget {
@@ -45,10 +46,12 @@ class _ItemPageState extends State<ItemPage> {
           ),
           body: Column(
             children: [
-              ElevatedButton(
-                onPressed: () {},
-                child: const Text('Удалить'),
-              )
+              item.creatorId == currentUser!.userId
+                  ? ElevatedButton(
+                      onPressed: () {},
+                      child: const Text('Удалить'),
+                    )
+                  : Container(),
             ],
           ),
         );

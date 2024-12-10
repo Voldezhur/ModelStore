@@ -25,10 +25,17 @@ class _MyWidgetState extends State<ProfilePage> {
       body: Center(
           child: Column(
         children: [
-          Row(
-            children: [
-              Text(currentUser!.username),
-            ],
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Text(currentUser!.userId.toString()),
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width * 0.1,
+                ),
+                Text(currentUser!.username),
+              ],
+            ),
           ),
           ElevatedButton(
             onPressed: _logout,
