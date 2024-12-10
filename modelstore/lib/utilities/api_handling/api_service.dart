@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:modelstore/models/item.dart';
 
-class NewApiService {
+class ApiService {
   final Dio dio = Dio();
 
   // Получить список всех книг

@@ -3,9 +3,10 @@ import 'package:modelstore/models/item.dart';
 import 'package:modelstore/widgets/items_display/item_card.dart';
 
 class ItemList extends StatefulWidget {
-  const ItemList({super.key, required this.itemList});
+  const ItemList({super.key, required this.itemList, required this.title});
 
   final Future<List<Item>> itemList;
+  final String title;
 
   @override
   State<ItemList> createState() => _ItemListState();
@@ -18,7 +19,7 @@ class _ItemListState extends State<ItemList> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('список моделей'),
+        title: Text(widget.title),
       ),
       body: FutureBuilder<List<Item>>(
         future: items,
