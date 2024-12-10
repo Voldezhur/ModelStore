@@ -6,7 +6,7 @@ class ApiService {
   final Dio dio = Dio();
   final url = 'http://10.0.2.2:8080';
 
-  // Получить список всех книг
+  // Получить список всех продуктов
   // Возвращает список объектов класса Item
   Future<List<Item>> getProducts() async {
     try {
@@ -45,7 +45,7 @@ class ApiService {
 //     }
 //   }
 
-  // Получить книгу по ID
+  // Получить продукт по ID
   // Возвращает объект класса Item
   Future<Item> getProductById(id) async {
     try {
@@ -61,21 +61,20 @@ class ApiService {
     }
   }
 
-//   // Удалить книгу по ID
-//   // На вход получает ID книги
-//   void deleteBookById(id) async {
-//     try {
-//       final response =
-//           await dio.delete('http://10.0.2.2:8080/products/delete/$id');
-//       if (response.statusCode != 204) {
-//         throw Exception(
-//           'Failed to delete item $id, status code ${response.statusCode}',
-//         );
-//       }
-//     } catch (e) {
-//       throw Exception('could not delete item: $e');
-//     }
-//   }
+  // Удалить продукт по ID
+  // На вход получает ID продукта
+  void deleteProductById(id) async {
+    try {
+      final response = await dio.delete('$url/products/$id');
+      if (response.statusCode != 200) {
+        throw Exception(
+          'Failed to delete item $id, status code ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      throw Exception('could not delete item: $e');
+    }
+  }
 
 //   // Редактировать книгу по ID
 //   // Получает на вход ID книги и JSON объект, подогнанный под формат для бекенда
@@ -95,23 +94,23 @@ class ApiService {
 //     }
 //   }
 
-//   // Добавить новую книгу
-//   // Получает на вход JSON объект, подогнанный под формат для бекенда
-//   void addBook(newItem) async {
-//     try {
-//       final response = await dio.post(
-//         'http://10.0.2.2:8080/products/create',
-//         data: newItem,
-//       );
-//       if (response.statusCode != 200) {
-//         throw Exception(
-//           'Failed to add item, status code ${response.statusCode}',
-//         );
-//       }
-//     } catch (e) {
-//       throw Exception('could not add item: $e');
-//     }
-//   }
+  // Добавить новый продукт
+  // Получает на вход JSON объект, подогнанный под формат для бекенда
+  void addProduct(newItem) async {
+    try {
+      final response = await dio.post(
+        '$url/products',
+        data: newItem,
+      );
+      if (response.statusCode != 201) {
+        throw Exception(
+          'Failed to add item, status code ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      throw Exception('could not add item: $e');
+    }
+  }
 
   // Добавить пользователя
   void addUser(newUser) async {

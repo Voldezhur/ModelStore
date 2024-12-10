@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:modelstore/models/item.dart';
 import 'package:modelstore/pages/items/item_page.dart';
+import 'package:modelstore/utilities/api_handling/api_service.dart';
 
 class ItemCard extends StatefulWidget {
   const ItemCard({super.key, required this.itemList, required this.itemIndex});
@@ -16,8 +17,8 @@ class _ItemCardState extends State<ItemCard> {
   // Функция для перехода на страницу товара
   // В товар подается id товара
   // Подгрузка данных происходит уже на странице самого товара
-  void _goToItemPage() {
-    Navigator.push(
+  void _goToItemPage() async {
+    bool isDeleted = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => ItemPage(
@@ -25,6 +26,13 @@ class _ItemCardState extends State<ItemCard> {
         ),
       ),
     );
+
+    if (isDeleted) {
+      setState(() {
+        ApiService()
+            .deleteProductById(widget.itemList[widget.itemIndex].productId);
+      });
+    }
   }
 
   @override

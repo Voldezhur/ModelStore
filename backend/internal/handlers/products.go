@@ -95,8 +95,8 @@ func CreateProduct(db *sqlx.DB) gin.HandlerFunc {
 			return
 		}
 
-		query := `INSERT INTO Product (name, description, price, stock, image_url) 
-                  VALUES (:name, :description, :price, :stock, :image_url) RETURNING product_id`
+		query := `INSERT INTO Product (name, description, price, image_url, creator_id) 
+                  VALUES (:name, :description, :price, :image_url, :creator_id) RETURNING product_id`
 
 		rows, err := db.NamedQuery(query, &product)
 		if err != nil {

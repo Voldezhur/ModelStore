@@ -48,7 +48,7 @@ class _ItemPageState extends State<ItemPage> {
             children: [
               item.creatorId == currentUser!.userId
                   ? ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () => Navigator.pop(context, true),
                       child: const Text('Удалить'),
                     )
                   : Container(),
