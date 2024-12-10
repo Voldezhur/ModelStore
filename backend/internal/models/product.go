@@ -7,4 +7,6 @@ type Product struct {
 	Price       float64 `db:"price" json:"price"`
 	ImageURL    string  `db:"image_url" json:"image_url"`
 	Creator_id  int		`db:"creator_id" json:"creator_id"`
+	Username	string	`db:"username" json:"username"`
+	Email  		string	`db:"email" json:"email"`
 }

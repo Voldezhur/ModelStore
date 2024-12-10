@@ -65,7 +65,8 @@ func GetProduct(db *sqlx.DB) gin.HandlerFunc {
 			return
 		}
 		var product models.Product
-		err = db.Get(&product, "SELECT * FROM Product WHERE product_id = $1", id)
+		// err = db.Get(&product, "SELECT * FROM Product WHERE product_id = $1", id)
+		err = db.Get(&product, "select p.product_id, p.name, p.description, p.price, p.image_url, p.creator_id, u.username, u.email from product p join users u on p.creator_id = u.user_id where product_id = $1", id)
 		if err != nil {
 			c.JSON(http.StatusNotFound, gin.H{"error": "Продукт не найден"})
 			return

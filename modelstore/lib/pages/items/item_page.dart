@@ -35,7 +35,7 @@ class _ItemPageState extends State<ItemPage> {
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (!snapshot.hasData) {
-          return const Center(child: Text('No such book'));
+          return const Center(child: Text('No such item'));
         }
 
         final item = snapshot.data!;
@@ -52,6 +52,7 @@ class _ItemPageState extends State<ItemPage> {
                       child: const Text('Удалить'),
                     )
                   : Container(),
+              Text(item.creatorUsername),
             ],
           ),
         );
