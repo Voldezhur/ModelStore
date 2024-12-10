@@ -13,10 +13,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    late Future<List<Item>> itemList;
-    const String title = 'Главная';
+    late Future<List<Item>> itemList; // Список товаров
+    const String title = 'Главная'; // Заголовок AppBar
 
-    // Получаем список из бекенда
+    // Получаем список всех товаров из бекенда
     itemList = ApiService().getProducts();
 
     return ItemList(itemList: itemList, title: title);

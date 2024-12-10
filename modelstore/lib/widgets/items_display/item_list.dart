@@ -15,20 +15,27 @@ class ItemList extends StatefulWidget {
 class _ItemListState extends State<ItemList> {
   @override
   Widget build(BuildContext context) {
-    var items = widget.itemList;
+    var items = widget.itemList; // Future, полученный из бекенда
 
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
+      // Используем FutureBuilder для удобной работы
       body: FutureBuilder<List<Item>>(
         future: items,
         builder: (context, snapshot) {
+          // В зависимости от статуса подгрузки данных выводим:
+          // Если ожидание - индикатор загрузки
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
+          }
+          // Если ошибка - ошибку
+          else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          }
+          // Если полученные данные пустые - соответствующее оповещение
+          else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(
               child: Text(
                 "Пусто 🤷\n Моделей не найдено",
@@ -38,6 +45,8 @@ class _ItemListState extends State<ItemList> {
             );
           }
 
+          // На этом этапе какие-то данные в snapshot точно есть
+          // Записываем эти данные в список и строим GridView
           final modelList = snapshot.data!;
 
           return GridView.builder(
@@ -48,6 +57,9 @@ class _ItemListState extends State<ItemList> {
               ),
               itemCount: modelList.length,
               itemBuilder: (BuildContext context, int index) {
+                // Передаем полученный список и индекс даннйо карточки для отрисовки
+                // Отрисовка карточек не отправляет дополнительных запросов
+                // Запросы для отдельных товаров отправляются только на странице самого товара
                 return ItemCard(
                   itemIndex: index,
                   itemList: modelList,

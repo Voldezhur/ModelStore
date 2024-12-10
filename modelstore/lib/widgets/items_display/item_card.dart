@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:modelstore/models/item.dart';
+import 'package:modelstore/pages/items/item_page.dart';
 
 class ItemCard extends StatefulWidget {
   const ItemCard({super.key, required this.itemList, required this.itemIndex});
@@ -12,12 +13,26 @@ class ItemCard extends StatefulWidget {
 }
 
 class _ItemCardState extends State<ItemCard> {
+  // Функция для перехода на страницу товара
+  // В товар подается id товара
+  // Подгрузка данных происходит уже на странице самого товара
+  void _goToItemPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ItemPage(
+          itemId: widget.itemList[widget.itemIndex].productId,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8),
       child: GestureDetector(
-        onTap: () {},
+        onTap: () => _goToItemPage(),
         child: Container(
           width: double.infinity,
           height: MediaQuery.of(context).size.height * 0.2,
@@ -29,6 +44,7 @@ class _ItemCardState extends State<ItemCard> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
+                // Картинка
                 Container(
                   decoration: const BoxDecoration(
                       border: Border(
@@ -40,12 +56,13 @@ class _ItemCardState extends State<ItemCard> {
                     height: 100,
                   ),
                 ),
+                // Колонка описания
                 Container(
                   padding: const EdgeInsets.all(15),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      // Кнопка перехода на другую страницу
+                      // Название
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.4,
                         child: Text(
@@ -56,6 +73,7 @@ class _ItemCardState extends State<ItemCard> {
                               color: Colors.white, fontSize: 20),
                         ),
                       ),
+                      // ID создателя
                       SizedBox(
                           width: MediaQuery.of(context).size.width * 0.4,
                           child: Text(

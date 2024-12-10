@@ -3,12 +3,13 @@ import 'package:modelstore/models/item.dart';
 
 class ApiService {
   final Dio dio = Dio();
+  final url = 'http://10.0.2.2:8080';
 
   // Получить список всех книг
   // Возвращает список объектов класса Item
   Future<List<Item>> getProducts() async {
     try {
-      final response = await dio.get('http://10.0.2.2:8080/products');
+      final response = await dio.get('$url/products');
       if (response.statusCode == 200) {
         // Переводим полученный JSON в список продуктов
         List<Item> items =
@@ -43,21 +44,21 @@ class ApiService {
 //     }
 //   }
 
-//   // Получить книгу по ID
-//   // Возвращает объект класса Item
-//   Future<Item> getBookById(id) async {
-//     try {
-//       final response = await dio.get('http://10.0.2.2:8080/products/$id');
-//       if (response.statusCode == 200) {
-//         Item item = Item.fromJson(response.data);
-//         return item;
-//       } else {
-//         throw Exception('Failed to load item');
-//       }
-//     } catch (e) {
-//       throw Exception('Error fetching item: $e');
-//     }
-//   }
+  // Получить книгу по ID
+  // Возвращает объект класса Item
+  Future<Item> getProductById(id) async {
+    try {
+      final response = await dio.get('$url/products/$id');
+      if (response.statusCode == 200) {
+        Item item = Item.fromJson(response.data);
+        return item;
+      } else {
+        throw Exception('Failed to load item');
+      }
+    } catch (e) {
+      throw Exception('Error fetching item: $e');
+    }
+  }
 
 //   // Удалить книгу по ID
 //   // На вход получает ID книги
