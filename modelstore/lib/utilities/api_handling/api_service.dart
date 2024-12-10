@@ -111,4 +111,19 @@ class ApiService {
 //       throw Exception('could not add item: $e');
 //     }
 //   }
+
+  // Найти пользователя по имени пользователя
+  Future<Item> getUserByUsername(username) async {
+    try {
+      final response = await dio.get('$url/users/$username');
+      if (response.statusCode == 200) {
+        Item item = Item.fromJson(response.data);
+        return item;
+      } else {
+        throw Exception('Failed to load item');
+      }
+    } catch (e) {
+      throw Exception('Error fetching user: $e');
+    }
+  }
 }

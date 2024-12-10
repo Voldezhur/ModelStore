@@ -43,6 +43,14 @@ class _ItemPageState extends State<ItemPage> {
           appBar: AppBar(
             title: Text(item.name),
           ),
+          body: Column(
+            children: [
+              ElevatedButton(
+                onPressed: () {},
+                child: const Text('Удалить'),
+              )
+            ],
+          ),
         );
       },
     );
