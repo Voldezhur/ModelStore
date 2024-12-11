@@ -18,7 +18,7 @@ class _ItemCardState extends State<ItemCard> {
   // В товар подается id товара
   // Подгрузка данных происходит уже на странице самого товара
   void _goToItemPage() async {
-    bool isDeleted = await Navigator.push(
+    final isDeleted = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => ItemPage(
@@ -27,7 +27,7 @@ class _ItemCardState extends State<ItemCard> {
       ),
     );
 
-    if (isDeleted) {
+    if (isDeleted == true) {
       setState(() {
         ApiService()
             .deleteProductById(widget.itemList[widget.itemIndex].productId);

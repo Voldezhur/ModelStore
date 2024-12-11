@@ -46,8 +46,10 @@ func GetProducts(db *sqlx.DB) gin.HandlerFunc {
 //	@Produce		json
 //	@Param			id	path		int	true	"Product ID"
 //	@Success		200	{object}	models.Product
+//
 // @Failure 400 {object} models.ErrorResponse
 // @Failure 500 {object} models.ErrorResponse
+//
 //	@Router			/products/{id} [get]
 func GetProduct(db *sqlx.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -77,6 +79,7 @@ func GetProduct(db *sqlx.DB) gin.HandlerFunc {
 
 // Создание нового продукта
 // CreateProduct godoc
+//
 //	@Summary		Create a new product
 //	@Description	Adds a new product to the database.
 //	@Tags			Products
@@ -84,8 +87,10 @@ func GetProduct(db *sqlx.DB) gin.HandlerFunc {
 //	@Produce		json
 //	@Param			product	body		models.Product	true	"Product details"
 //	@Success		201		{object}	models.Product
+//
 // @Failure 400 {object} models.ErrorResponse
 // @Failure 500 {object} models.ErrorResponse
+//
 //	@Router			/products [post]
 func CreateProduct(db *sqlx.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -124,8 +129,10 @@ func CreateProduct(db *sqlx.DB) gin.HandlerFunc {
 //	@Param			id		path		int				true	"Product ID"
 //	@Param			product	body		models.Product	true	"Updated product details"
 //	@Success		200		{object}	models.Product
+//
 // @Failure 400 {object} models.ErrorResponse
 // @Failure 500 {object} models.ErrorResponse
+//
 //	@Router			/products/{id} [put]
 func UpdateProduct(db *sqlx.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -166,8 +173,10 @@ func UpdateProduct(db *sqlx.DB) gin.HandlerFunc {
 //	@Produce		json
 //	@Param			id	path		int	true	"Product ID"
 //	@Success		200	{object}	map[string]string
+//
 // @Failure 400 {object} models.ErrorResponse
 // @Failure 500 {object} models.ErrorResponse
+//
 //	@Router			/products/{id} [delete]
 func DeleteProduct(db *sqlx.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {

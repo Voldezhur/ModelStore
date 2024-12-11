@@ -116,7 +116,7 @@ class ApiService {
   void addUser(newUser) async {
     try {
       final response = await dio.post(
-        'http://10.0.2.2:8080/users/create',
+        '$url/users',
         data: newUser,
       );
       if (response.statusCode != 201) {

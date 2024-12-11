@@ -23,10 +23,14 @@ class _MainPageState extends State<MainPage> {
   ];
 
   // Переход между страницами
-  void onNavTapped(int index) {
+  void _onNavTapped(int index) {
     setState(() {
       selectedIndex = index;
     });
+  }
+
+  callback() {
+    setState(() {});
   }
 
   @override
@@ -49,13 +53,13 @@ class _MainPageState extends State<MainPage> {
             ),
           ],
           currentIndex: selectedIndex,
-          onTap: onNavTapped,
+          onTap: _onNavTapped,
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () => Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const AddItemPage(),
+              builder: (context) => AddItemPage(callback: callback),
             ),
           ),
           child: const Icon(Icons.add),
