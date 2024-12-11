@@ -13,12 +13,14 @@ class _RegisterPageState extends State<RegisterPage> {
   final authService = AuthService();
 
   // Текстовые контроллеры для ввода данных
+  final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
 
   void _signUp() async {
     // Подготовка данных
+    final username = usernameController.text;
     final email = emailController.text;
     final password = passwordController.text;
     final confirmPassword = confirmPasswordController.text;
@@ -33,7 +35,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     // Попытка создания аккаунта
     try {
-      await authService.signUpEmailPassword(email, password);
+      await authService.createUser(username, email, password);
 
       if (mounted) {
         Navigator.pop(context);
@@ -56,6 +58,10 @@ class _RegisterPageState extends State<RegisterPage> {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 50),
         children: [
+          TextField(
+            controller: usernameController,
+            decoration: const InputDecoration(labelText: 'Имя пользователя'),
+          ),
           TextField(
             controller: emailController,
             decoration: const InputDecoration(labelText: 'Электронная почта'),
