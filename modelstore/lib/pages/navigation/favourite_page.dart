@@ -4,6 +4,8 @@ import 'package:modelstore/models/user.dart';
 import 'package:modelstore/utilities/api_handling/api_service.dart';
 import 'package:modelstore/widgets/items_display/item_card.dart';
 
+// select *, (case when (product_id in (select product_id from favourites where user_id = 1)) then true else false end) as isFavourite from product;
+
 class FavouritePage extends StatefulWidget {
   const FavouritePage({super.key});
 
@@ -29,7 +31,7 @@ class _FavouritePageState extends State<FavouritePage> {
 
     setState(() {
       // Подгрузка обновленных данных из бд
-      itemList = ApiService().getProducts();
+      itemList = ApiService().getFavourites(currentUser!.userId);
     });
   }
 
