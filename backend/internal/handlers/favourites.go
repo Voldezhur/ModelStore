@@ -11,6 +11,7 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
+// Теперь возвращает список продуктов
 func GetFavourites(db *sqlx.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// Получаем ID из параметров маршрута
@@ -29,8 +30,8 @@ func GetFavourites(db *sqlx.DB) gin.HandlerFunc {
 		}
 
 		// Выполняем запрос к базе данных
-		var favoriteUser []models.Favourite
-		err = db.Select(&favoriteUser, "SELECT * FROM favourites WHERE user_id = $1", id)
+		var favoriteUser []models.Product
+		err = db.Select(&favoriteUser, "select * from product where product_id in (select product_id from favourites where user_id = $1)", id)
 		if err != nil {
 			log.Println("Ошибка запроса к базе данных:", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка получения корзины"})

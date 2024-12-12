@@ -12,9 +12,17 @@ class ApiService {
     try {
       final response = await dio.get('$url/products');
       if (response.statusCode == 200) {
+        // Получаем ответ с с бекенда
+        var res = response.data;
+
         // Переводим полученный JSON в список продуктов
-        List<Item> items =
-            (response.data as List).map((item) => Item.fromJson(item)).toList();
+        // Если получаем null - возвращаем пустой список
+        List<Item> items = res == null
+            ? []
+            : (response.data as List)
+                .map((item) => Item.fromJson(item))
+                .toList();
+
         return items;
       } else {
         throw Exception('Failed to load items');
@@ -156,6 +164,32 @@ class ApiService {
       }
     } catch (e) {
       throw Exception('Error fetching user: $e');
+    }
+  }
+
+  // Получить список избранных товаров по ID пользователя
+  // Возвращает список объектов класса Item
+  Future<List<Item>> getFavourites(id) async {
+    try {
+      final response = await dio.get('$url/favourites/$id');
+      if (response.statusCode == 200) {
+        // Получаем ответ с с бекенда
+        var res = response.data;
+
+        // Переводим полученный JSON в список продуктов
+        // Если получаем null - возвращаем пустой список
+        List<Item> items = res == null
+            ? []
+            : (response.data as List)
+                .map((item) => Item.fromJson(item))
+                .toList();
+
+        return items;
+      } else {
+        throw Exception('Failed to load items');
+      }
+    } catch (e) {
+      throw Exception('Error fetching items: $e');
     }
   }
 }
