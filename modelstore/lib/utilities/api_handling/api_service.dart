@@ -63,7 +63,7 @@ class ApiService {
 
   // Удалить продукт по ID
   // На вход получает ID продукта
-  void deleteProductById(id) async {
+  Future<void> deleteProductById(id) async {
     try {
       final response = await dio.delete('$url/products/$id');
       if (response.statusCode != 200) {
@@ -96,7 +96,7 @@ class ApiService {
 
   // Добавить новый продукт
   // Получает на вход JSON объект, подогнанный под формат для бекенда
-  void addProduct(newItem) async {
+  Future<void> addProduct(newItem) async {
     try {
       final response = await dio.post(
         '$url/products',

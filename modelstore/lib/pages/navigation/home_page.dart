@@ -24,20 +24,22 @@ class _HomePageState extends State<HomePage> {
   }
 
   // Функция добавления продукта
-  void _addItem(item) {
+  void _addItem(item) async {
+    // Добавление продукта в бд
+    // item - JSON объект
+    await ApiService().addProduct(item);
+
     setState(() {
-      // Добавление продукта в бд
-      // item - JSON объект
-      ApiService().addProduct(item);
       // Подгрузка обновленных данных из бд
       itemList = ApiService().getProducts();
     });
   }
 
-  void _removeItem(id) {
+  void _removeItem(id) async {
+    // Удаление продукта из бд по айди
+    await ApiService().deleteProductById(id);
+
     setState(() {
-      // Удаление продукта из бд по айди
-      ApiService().deleteProductById(id);
       // Подгрузка обновленных данных из бд
       itemList = ApiService().getProducts();
     });
