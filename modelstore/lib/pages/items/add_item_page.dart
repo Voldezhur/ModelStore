@@ -15,6 +15,11 @@ class _AddItemPageState extends State<AddItemPage> {
   var priceController = TextEditingController();
   var imageUrlController = TextEditingController();
 
+  // Данные, использующиеся в том случае,
+  // Когда пользователь оставил поля пустыми
+  String placeholderName = 'placeholder name';
+  String placeholderDescription = 'placeholder desc';
+  int placeholderPrice = 1;
   String placeholderImageUrl =
       'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png';
 
@@ -27,19 +32,16 @@ class _AddItemPageState extends State<AddItemPage> {
     String price = priceController.text;
     String imageUrl = imageUrlController.text;
 
-    // Проверка, что данные корректны
-    if (name != '' && description != '' && price != '') {
-      final item = {
-        "name": name,
-        "description": description,
-        "price": int.parse(price),
-        // Если поле ссылки на картинку пусто - placeholder
-        "image_url": imageUrl == '' ? placeholderImageUrl : imageUrl,
-        "creator_id": currentUser!.userId,
-      };
+    // Создание JSON объекта
+    final item = {
+      "name": name == '' ? placeholderName : name,
+      "description": description == '' ? placeholderDescription : description,
+      "price": price == '' ? placeholderPrice : int.parse(price),
+      "image_url": imageUrl == '' ? placeholderImageUrl : imageUrl,
+      "creator_id": currentUser!.userId,
+    };
 
-      Navigator.pop(context, item);
-    }
+    Navigator.pop(context, item);
   }
 
   @override
