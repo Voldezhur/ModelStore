@@ -1,16 +1,17 @@
 package handlers
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/jmoiron/sqlx"
 	"log"
 	"net/http"
 	"shopApi/internal/models"
 	"strconv"
 	"strings"
+
+	"github.com/gin-gonic/gin"
+	"github.com/jmoiron/sqlx"
 )
 
-func GetFavorites(db *sqlx.DB) gin.HandlerFunc {
+func GetFavourites(db *sqlx.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// Получаем ID из параметров маршрута
 		idStr := c.Param("id")
@@ -28,8 +29,8 @@ func GetFavorites(db *sqlx.DB) gin.HandlerFunc {
 		}
 
 		// Выполняем запрос к базе данных
-		var favoriteUser []models.Favorite
-		err = db.Select(&favoriteUser, "SELECT * FROM favorites WHERE user_id = $1", id)
+		var favoriteUser []models.Favourite
+		err = db.Select(&favoriteUser, "SELECT * FROM favourites WHERE user_id = $1", id)
 		if err != nil {
 			log.Println("Ошибка запроса к базе данных:", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка получения корзины"})
@@ -41,7 +42,7 @@ func GetFavorites(db *sqlx.DB) gin.HandlerFunc {
 	}
 }
 
-func AddToFavorites(db *sqlx.DB) gin.HandlerFunc {
+func AddToFavourites(db *sqlx.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userId := c.Param("userId")
 		var item struct {
@@ -51,7 +52,7 @@ func AddToFavorites(db *sqlx.DB) gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Некорректные данные"})
 			return
 		}
-		_, err := db.Exec("INSERT INTO Favorites (user_id, product_id) VALUES ($1, $2) ON CONFLICT DO NOTHING",
+		_, err := db.Exec("INSERT INTO Favourites (user_id, product_id) VALUES ($1, $2) ON CONFLICT DO NOTHING",
 			userId, item.ProductID)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка добавления в избранное"})
@@ -61,11 +62,11 @@ func AddToFavorites(db *sqlx.DB) gin.HandlerFunc {
 	}
 }
 
-func RemoveFromFavorites(db *sqlx.DB) gin.HandlerFunc {
+func RemoveFromFavourites(db *sqlx.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userId := c.Param("userId")
 		productId := c.Param("productId")
-		_, err := db.Exec("DELETE FROM Favorites WHERE user_id = $1 AND product_id = $2", userId, productId)
+		_, err := db.Exec("DELETE FROM Favourites WHERE user_id = $1 AND product_id = $2", userId, productId)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка удаления из избранного"})
 			return

@@ -1,11 +1,12 @@
 package main
 
 import (
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
 	"log"
 	"shopApi/internal/handlers"
 	"shopApi/pkg/db"
+
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 
 	"github.com/gin-gonic/gin"
 
@@ -55,9 +56,9 @@ func main() {
 	router.DELETE("/carts/:userId/:productId", handlers.RemoveFromCart(db))
 
 	// Роуты для избранного
-	router.GET("/favorites/:id", handlers.GetFavorites(db))
-	router.POST("/favorites/:userId", handlers.AddToFavorites(db))
-	router.DELETE("/favorites/:userId/:productId", handlers.RemoveFromFavorites(db))
+	router.GET("/favourites/:id", handlers.GetFavourites(db))
+	router.POST("/favourites/:userId", handlers.AddToFavourites(db))
+	router.DELETE("/favourites/:userId/:productId", handlers.RemoveFromFavourites(db))
 
 	// Роуты для заказов
 	router.GET("/orders/:id", handlers.GetOrders(db))
