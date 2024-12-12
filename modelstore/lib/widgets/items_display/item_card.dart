@@ -59,8 +59,11 @@ class _ItemCardState extends State<ItemCard> {
                   // Картинка
                   child: ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(20)),
-                    child: Image.network(
-                      widget.item.imageUrl,
+                    child: SizedBox(
+                      height: 120,
+                      child: Image.network(
+                        widget.item.imageUrl,
+                      ),
                     ),
                   ),
                 ),

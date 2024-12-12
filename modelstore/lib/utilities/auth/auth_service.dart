@@ -14,11 +14,18 @@ class AuthService {
   // Sign up email password
   Future<AuthResponse> createUser(
       String username, String email, String password) async {
+    // Сначала пробуем зарегистрироваться в supabase
+    var response =
+        await _supabase.auth.signUp(email: email, password: password);
+
+    // Если регистрация прошла,
+    // Добавляем запись о пользователе в БД Postgres
     ApiService().addUser({
       "username": username,
-      "email": email,
+      "email": email.toLowerCase(),
     });
-    return await _supabase.auth.signUp(email: email, password: password);
+
+    return response;
   }
 
   // Sign out
