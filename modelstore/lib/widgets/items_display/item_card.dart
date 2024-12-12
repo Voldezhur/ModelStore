@@ -4,10 +4,9 @@ import 'package:modelstore/pages/items/item_page.dart';
 import 'package:modelstore/utilities/api_handling/api_service.dart';
 
 class ItemCard extends StatefulWidget {
-  const ItemCard({super.key, required this.itemList, required this.itemIndex});
+  const ItemCard({super.key, required this.item});
 
-  final List<Item> itemList;
-  final int itemIndex;
+  final Item item;
 
   @override
   State<ItemCard> createState() => _ItemCardState();
@@ -22,15 +21,14 @@ class _ItemCardState extends State<ItemCard> {
       context,
       MaterialPageRoute(
         builder: (context) => ItemPage(
-          itemId: widget.itemList[widget.itemIndex].productId,
+          itemId: widget.item.productId,
         ),
       ),
     );
 
     if (isDeleted == true) {
       setState(() {
-        ApiService()
-            .deleteProductById(widget.itemList[widget.itemIndex].productId);
+        ApiService().deleteProductById(widget.item.productId);
       });
     }
   }
@@ -60,7 +58,7 @@ class _ItemCardState extends State<ItemCard> {
                   padding: const EdgeInsets.all(6),
                   width: MediaQuery.sizeOf(context).width / 3,
                   child: Image.network(
-                    widget.itemList[widget.itemIndex].imageUrl,
+                    widget.item.imageUrl,
                     height: 100,
                   ),
                 ),
@@ -74,7 +72,7 @@ class _ItemCardState extends State<ItemCard> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.4,
                         child: Text(
-                          widget.itemList[widget.itemIndex].name,
+                          widget.item.name,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: const TextStyle(
@@ -85,8 +83,7 @@ class _ItemCardState extends State<ItemCard> {
                       SizedBox(
                           width: MediaQuery.of(context).size.width * 0.4,
                           child: Text(
-                            widget.itemList[widget.itemIndex].creatorId
-                                .toString(),
+                            widget.item.creatorId.toString(),
                             style: const TextStyle(
                                 color: Colors.white, fontSize: 11),
                           )),
@@ -94,7 +91,7 @@ class _ItemCardState extends State<ItemCard> {
                         height: 20,
                       ),
                       Text(
-                        "Стоимость: ${widget.itemList[widget.itemIndex].price}",
+                        "Стоимость: ${widget.item.price}",
                         style: const TextStyle(color: Colors.white),
                       ),
                     ],

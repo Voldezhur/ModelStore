@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:modelstore/models/user.dart';
-import 'package:modelstore/utilities/api_handling/api_service.dart';
-
-// name, description, price, image_url
 
 class AddItemPage extends StatefulWidget {
-  const AddItemPage({super.key, required this.callback});
-
-  final Function callback;
+  const AddItemPage({super.key});
 
   @override
   State<AddItemPage> createState() => _AddItemPageState();
@@ -26,29 +21,25 @@ class _AddItemPageState extends State<AddItemPage> {
   // Функция для добавления модели в бд
   // Собирает из вводов JSON объект и отсылает к апи
   void _addProduct() {
-    setState(() {
-      // Подготовка данных
-      String name = nameController.text;
-      String description = descriptionController.text;
-      String price = priceController.text;
-      String imageUrl = imageUrlController.text;
+    // Подготовка данных
+    String name = nameController.text;
+    String description = descriptionController.text;
+    String price = priceController.text;
+    String imageUrl = imageUrlController.text;
 
-      // Проверка, что данные корректны
-      if (name != '' && description != '' && price != '') {
-        ApiService().addProduct({
-          "name": name,
-          "description": description,
-          "price": int.parse(price),
-          // Если поле ссылки на картинку пусто - placeholder
-          "image_url": imageUrl == '' ? placeholderImageUrl : imageUrl,
-          "creator_id": currentUser!.userId,
-        });
+    // Проверка, что данные корректны
+    if (name != '' && description != '' && price != '') {
+      final item = {
+        "name": name,
+        "description": description,
+        "price": int.parse(price),
+        // Если поле ссылки на картинку пусто - placeholder
+        "image_url": imageUrl == '' ? placeholderImageUrl : imageUrl,
+        "creator_id": currentUser!.userId,
+      };
 
-        widget.callback();
-
-        Navigator.pop(context);
-      }
-    });
+      Navigator.pop(context, item);
+    }
   }
 
   @override
