@@ -46,21 +46,25 @@ class _ItemCardState extends State<ItemCard> {
           ),
           child: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Картинка
+                // Контейнер верхней части
                 Container(
                   decoration: const BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(color: Colors.black12, width: 2))),
-                  padding: const EdgeInsets.all(6),
-                  width: MediaQuery.sizeOf(context).width / 3,
-                  child: Image.network(
-                    widget.item.imageUrl,
-                    height: 100,
+                    border: Border(
+                      bottom: BorderSide(color: Colors.black12, width: 2),
+                    ),
+                  ),
+                  padding: const EdgeInsets.all(12),
+                  // Картинка
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                    child: Image.network(
+                      widget.item.imageUrl,
+                    ),
                   ),
                 ),
-                // Колонка описания
+                // Контейнер описания
                 Container(
                   padding: const EdgeInsets.all(15),
                   child: Column(

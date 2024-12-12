@@ -22,27 +22,40 @@ class _MyWidgetState extends State<ProfilePage> {
       appBar: AppBar(
         title: const Text('Профиль'),
       ),
-      body: Center(
-          child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
+      body: Padding(
+        padding: const EdgeInsets.all(32.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(currentUser!.userId.toString()),
-                SizedBox(
-                  width: MediaQuery.sizeOf(context).width * 0.1,
+                Text(
+                  "Имя пользователя: ${currentUser!.username}",
+                  style: const TextStyle(fontSize: 21),
                 ),
-                Text(currentUser!.username),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                Text(
+                  "Электронная почта: ${currentUser!.email}",
+                  style: const TextStyle(fontSize: 21),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                Text(
+                  "Код пользователя: ${currentUser!.userId.toString()}",
+                  style: const TextStyle(fontSize: 21),
+                ),
               ],
             ),
-          ),
-          ElevatedButton(
-            onPressed: _logout,
-            child: const Text('Выйти из аккаунта'),
-          ),
-        ],
-      )),
+            Center(
+              child: ElevatedButton(
+                onPressed: _logout,
+                child: const Text('Выйти из аккаунта'),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
