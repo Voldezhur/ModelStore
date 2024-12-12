@@ -27,7 +27,17 @@ class _HomePageState extends State<HomePage> {
   void _addItem(item) {
     setState(() {
       // Добавление продукта в бд
+      // item - JSON объект
       ApiService().addProduct(item);
+      // Подгрузка обновленных данных из бд
+      itemList = ApiService().getProducts();
+    });
+  }
+
+  void _removeItem(id) {
+    setState(() {
+      // Удаление продукта из бд по айди
+      ApiService().deleteProductById(id);
       // Подгрузка обновленных данных из бд
       itemList = ApiService().getProducts();
     });
@@ -79,8 +89,7 @@ class _HomePageState extends State<HomePage> {
                   // Отрисовка карточек не отправляет дополнительных запросов
                   // Запросы для отдельных товаров отправляются только на странице самого товара
                   return ItemCard(
-                    item: modelList[index],
-                  );
+                      item: modelList[index], removeItem: _removeItem);
                 });
           },
         ),

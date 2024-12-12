@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:modelstore/models/item.dart';
 import 'package:modelstore/pages/items/item_page.dart';
-import 'package:modelstore/utilities/api_handling/api_service.dart';
 
 class ItemCard extends StatefulWidget {
-  const ItemCard({super.key, required this.item});
+  const ItemCard({super.key, required this.item, required this.removeItem});
 
   final Item item;
+  final Function removeItem;
 
   @override
   State<ItemCard> createState() => _ItemCardState();
@@ -27,9 +27,7 @@ class _ItemCardState extends State<ItemCard> {
     );
 
     if (isDeleted == true) {
-      setState(() {
-        ApiService().deleteProductById(widget.item.productId);
-      });
+      widget.removeItem(widget.item.productId);
     }
   }
 
