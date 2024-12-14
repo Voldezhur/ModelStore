@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:modelstore/models/item.dart';
+import 'package:modelstore/models/user.dart';
 import 'package:modelstore/pages/items/item_page.dart';
+import 'package:modelstore/utilities/api_handling/api_service.dart';
 
 class ItemCard extends StatefulWidget {
   const ItemCard({super.key, required this.item, required this.removeItem});
@@ -13,6 +15,8 @@ class ItemCard extends StatefulWidget {
 }
 
 class _ItemCardState extends State<ItemCard> {
+  bool isFavourite = false;
+
   // Функция для перехода на страницу товара
   // В товар подается id товара
   // Подгрузка данных происходит уже на странице самого товара
@@ -29,6 +33,38 @@ class _ItemCardState extends State<ItemCard> {
     if (isDeleted == true) {
       widget.removeItem(widget.item.productId);
     }
+  }
+
+  // Проверка, является ли товар любимым
+  void _checkIsFavourite() async {
+    final res = await ApiService()
+        .checkIsFavourite(currentUser!.userId, widget.item.productId);
+
+    setState(() {
+      isFavourite = res;
+    });
+  }
+
+  // Тогглим статус избранного для продукта на карточке
+  void _toggleFavourite() {
+    if (isFavourite) {
+      ApiService().removeFavourite(widget.item.productId);
+    } else {
+      ApiService().addFavourite(widget.item.productId);
+    }
+
+    setState(() {
+      isFavourite = !isFavourite;
+    });
+  }
+
+  // Когда карточка товара появляется на экране,
+  // Проверяем, является ли он избранным
+  // Отправляем запрос на бекенд
+  @override
+  void initState() {
+    _checkIsFavourite();
+    super.initState();
   }
 
   @override
@@ -99,6 +135,12 @@ class _ItemCardState extends State<ItemCard> {
                         "Стоимость: ${widget.item.price}",
                         style: const TextStyle(color: Colors.white),
                       ),
+                      IconButton(
+                        onPressed: _toggleFavourite,
+                        icon: Icon(isFavourite
+                            ? Icons.favorite
+                            : Icons.favorite_border),
+                      )
                     ],
                   ),
                 ),

@@ -32,27 +32,6 @@ class ApiService {
     }
   }
 
-//   // Получить список любимых книг
-//   // Возвращает список объектов класса Item
-//   // Тот же метод, что и getBooks(), но с фильтром в конце
-//   Future<List<Item>> getFavourites() async {
-//     try {
-//       final response = await dio.get('http://10.0.2.2:8080/products');
-//       if (response.statusCode == 200) {
-//         // Переводим полученный JSON в список книг
-//         List<Item> items =
-//             (response.data as List).map((item) => Item.fromJson(item)).toList();
-//         // Выделяем из полученного списка только любимые
-//         final favourites = items.where((x) => x.favourite).toList();
-//         return favourites;
-//       } else {
-//         throw Exception('Failed to load items');
-//       }
-//     } catch (e) {
-//       throw Exception('Error fetching items: $e');
-//     }
-//   }
-
   // Получить продукт по ID
   // Возвращает объект класса Item
   Future<Item> getProductById(id) async {
@@ -190,6 +169,57 @@ class ApiService {
       }
     } catch (e) {
       throw Exception('Error fetching items: $e');
+    }
+  }
+
+  // Проверить, является ли продукт избранным у пользователя
+  // Возвращает bool
+  Future<bool> checkIsFavourite(userId, productId) async {
+    try {
+      final response =
+          await dio.get('$url/favourites/check/$userId/$productId');
+      if (response.statusCode == 200) {
+        // Получаем ответ с с бекенда
+        var res = response.data;
+
+        return res;
+      } else {
+        throw Exception('Failed to load items');
+      }
+    } catch (e) {
+      throw Exception('Error fetching items: $e');
+    }
+  }
+
+  // Добавить продукт в любимое
+  void addFavourite(productId) async {
+    try {
+      final response = await dio.post(
+        '$url/favourites/${currentUser!.userId}',
+        data: {"product_id": productId},
+      );
+      if (response.statusCode != 200) {
+        throw Exception(
+          'Failed to add item to favourites, status code ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      throw Exception('could not add item: $e');
+    }
+  }
+
+  // Удалить продукт из любимого
+  void removeFavourite(productId) async {
+    try {
+      final response =
+          await dio.delete('$url/favourites/${currentUser!.userId}/$productId');
+      if (response.statusCode != 200) {
+        throw Exception(
+          'Failed to remove item from favourites, status code ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      throw Exception('could not add item: $e');
     }
   }
 }
