@@ -14,10 +14,23 @@ class _CartPageState extends State<CartPage> {
   late Future<List<CartItem>> cart;
 
   // Удаление модели из корзины
-  void _removeItem() {}
+  void _removeItem(itemId) async {
+    await ApiService().removeCartItem(itemId);
+
+    setState(() {
+      cart = ApiService().getCart();
+    });
+  }
 
   // Увеличение / уменьшение числа моделей в корзине
-  void _incrementItem() {}
+  void _incrementItem(itemId, amount, adding) async {
+    await ApiService()
+        .incrementCartItem({"product_id": itemId, "quantity": amount}, adding);
+
+    // setState(() {
+    //   cart = ApiService().getCart();
+    // });
+  }
 
   @override
   void initState() {

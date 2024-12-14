@@ -1,13 +1,14 @@
 package handlers
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/jmoiron/sqlx"
 	"log"
 	"net/http"
 	"shopApi/internal/models"
 	"strconv"
 	"strings"
+
+	"github.com/gin-gonic/gin"
+	"github.com/jmoiron/sqlx"
 )
 
 // GetCart godoc
@@ -49,17 +50,18 @@ func GetCart(db *sqlx.DB) gin.HandlerFunc {
 	}
 }
 
-
-
 // AddCart godoc
 // @Summary Get all cart
 // @Description Добаление нового продукта в корзину
 // @Tags Cart
+//
 //	@Produce		json
 //	@Param			id	path		int	true	"Cart ID"
 //	@Success		200	{object}	models.Cart
+//
 // @Failure 400 {object} models.ErrorResponse
 // @Failure 500 {object} models.ErrorResponse
+//
 //	@Router			/carts/{id} [post]
 func AddToCart(db *sqlx.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -72,7 +74,7 @@ func AddToCart(db *sqlx.DB) gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Некорректные данные"})
 			return
 		}
-		_, err := db.Exec("INSERT INTO Cart (user_id, product_id, quantity) VALUES ($1, $2, $3) ON CONFLICT (user_id, product_id) DO UPDATE SET quantity = Cart.quantity + $3",
+		_, err := db.Exec("INSERT INTO Cart (user_id, product_id, quantity) VALUES ($1, $2, $3) ON CONFLICT (user_id, product_id) DO UPDATE SET quantity = $3",
 			userId, item.ProductID, item.Quantity)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка добавления в корзину"})

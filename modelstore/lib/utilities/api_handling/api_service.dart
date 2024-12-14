@@ -227,7 +227,7 @@ class ApiService {
   // Получить список продуктов из корзины
   Future<List<CartItem>> getCart() async {
     try {
-      final response = await dio.get('$url/carts/${currentUser!.userId}');
+      final response = await dio.get('$url/cart/${currentUser!.userId}');
 
       if (response.statusCode == 200) {
         // Получаем ответ с с бекенда
@@ -259,6 +259,53 @@ class ApiService {
         return cart;
       } else {
         throw Exception('Failed to load items');
+      }
+    } catch (e) {
+      throw Exception('could not add item: $e');
+    }
+  }
+
+  // Удаление продукта из корзины
+  Future<void> removeCartItem(itemId) async {
+    try {
+      var response =
+          await dio.delete('$url/cart/${currentUser!.userId}/$itemId');
+      if (response.statusCode != 200) {
+        throw Exception(
+          'Failed to remove item from favourites, status code ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      throw Exception('could not add item: $e');
+    }
+  }
+
+  // Увеличение или уменьшение количества продукта в корзине
+  // item: {product_id, quantity}
+  // adding: bool. true - увеличение, false - уменьшение
+  Future<void> incrementCartItem(item, adding) async {
+    try {
+      // Проверка увеличение / уменьшение
+      int amount;
+      if (adding) {
+        amount = item['quantity'] + 1;
+      } else {
+        amount = item['quantity'] - 1;
+      }
+
+      if (item['quantity'] <= 0) {
+        removeCartItem(item['product_id']);
+        return;
+      }
+
+      var response = await dio.post(
+        '$url/cart/${currentUser!.userId}',
+        data: {'product_id': item['product_id'], 'quantity': amount},
+      );
+      if (response.statusCode != 200) {
+        throw Exception(
+          'Failed to remove item from favourites, status code ${response.statusCode}',
+        );
       }
     } catch (e) {
       throw Exception('could not add item: $e');

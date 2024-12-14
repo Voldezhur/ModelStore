@@ -19,6 +19,17 @@ class CartCard extends StatefulWidget {
 }
 
 class _CartCardState extends State<CartCard> {
+  void _incrementItem(adding) {
+    widget.incrementItem(
+      widget.cartItem.item.productId,
+      widget.cartItem.amount,
+      adding,
+    );
+    setState(() {
+      widget.cartItem.amount += adding ? 1 : -1;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -72,8 +83,7 @@ class _CartCardState extends State<CartCard> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           IconButton(
-                            onPressed: () => widget.incrementItem(
-                                widget.cartItem.item.productId, true),
+                            onPressed: () => _incrementItem(true),
                             icon: const Icon(
                               Icons.add,
                               color: Colors.white,
@@ -86,8 +96,7 @@ class _CartCardState extends State<CartCard> {
                             ),
                           ),
                           IconButton(
-                            onPressed: () => widget.incrementItem(
-                                widget.cartItem.item.productId, false),
+                            onPressed: () => _incrementItem(false),
                             icon: const Icon(
                               Icons.remove,
                               color: Colors.white,
