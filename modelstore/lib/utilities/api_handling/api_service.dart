@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:modelstore/models/cart_item.dart';
 import 'package:modelstore/models/item.dart';
 import 'package:modelstore/models/user.dart';
 
@@ -217,6 +218,47 @@ class ApiService {
         throw Exception(
           'Failed to remove item from favourites, status code ${response.statusCode}',
         );
+      }
+    } catch (e) {
+      throw Exception('could not add item: $e');
+    }
+  }
+
+  // Получить список продуктов из корзины
+  Future<List<CartItem>> getCart() async {
+    try {
+      final response = await dio.get('$url/carts/${currentUser!.userId}');
+
+      if (response.statusCode == 200) {
+        // Получаем ответ с с бекенда
+        var res = response.data;
+
+        // Переводим полученную информацию в набор объектов {product_id, quantity}
+        // Если получаем null - возвращаем пустой список
+        List items = res == null
+            ? []
+            : (response.data as List)
+                .map((item) => {
+                      item['product_id'],
+                      item['quantity'],
+                    })
+                .toList();
+
+        List<CartItem> cart = [];
+        // Для каждого объекта отправляем запрос на бекенд,
+        // Чтобы получить продукт
+        // До этого у нас есть только id продукта
+        // После этого у нас будет сам объект
+        for (var i in items) {
+          // i.first - id продукта
+          var cartItem = await getProductById(i.first);
+          // i.last - количество продукта в корзине
+          cart.add(CartItem(cartItem, i.last));
+        }
+
+        return cart;
+      } else {
+        throw Exception('Failed to load items');
       }
     } catch (e) {
       throw Exception('could not add item: $e');

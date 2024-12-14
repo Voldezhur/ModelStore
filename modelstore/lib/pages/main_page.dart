@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modelstore/pages/navigation/cart_page.dart';
 import 'package:modelstore/pages/navigation/favourite_page.dart';
 import 'package:modelstore/pages/navigation/home_page.dart';
 import 'package:modelstore/pages/navigation/profile_page.dart';
@@ -18,6 +19,7 @@ class _MainPageState extends State<MainPage> {
   static List<Widget> widgetOptions = <Widget>[
     const HomePage(),
     const FavouritePage(),
+    const CartPage(),
     const ProfilePage(),
   ];
 
@@ -33,17 +35,34 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       body: widgetOptions.elementAt(selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
+        fixedColor: Colors.white,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(
+              Icons.home,
+              color: Colors.white,
+            ),
             label: 'Главная',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
+            icon: Icon(
+              Icons.favorite,
+              color: Colors.white,
+            ),
             label: 'Избранное',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Icon(
+              Icons.shopping_cart,
+              color: Colors.white,
+            ),
+            label: 'Избранное',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person,
+              color: Colors.white,
+            ),
             label: 'Профиль',
           ),
         ],

@@ -120,14 +120,14 @@ class _ItemCardState extends State<ItemCard> {
                               color: Colors.white, fontSize: 20),
                         ),
                       ),
-                      // ID создателя
-                      SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.4,
-                          child: Text(
-                            widget.item.creatorId.toString(),
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 11),
-                          )),
+                      // // ID создателя
+                      // SizedBox(
+                      //     width: MediaQuery.of(context).size.width * 0.4,
+                      //     child: Text(
+                      //       widget.item.creatorId.toString(),
+                      //       style: const TextStyle(
+                      //           color: Colors.white, fontSize: 11),
+                      //     )),
                       const SizedBox(
                         height: 20,
                       ),
