@@ -43,6 +43,47 @@ func GetFavourites(db *sqlx.DB) gin.HandlerFunc {
 	}
 }
 
+// true/false есть ли продукт product_id в избранном у пользователя user_id
+func CheckIsFavourite(db *sqlx.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		// Получаем ID из параметров маршрута
+		userId := c.Param("userId")
+		productId := c.Param("productId")
+		log.Println("Полученные параметры userIdStr:", userId, ", productIdStr: ", productId)
+
+		// // Убираем лишние пробелы
+		// userId = strings.TrimSpace(userId)
+		// productId = strings.TrimSpace(productId)
+
+		// // Преобразуем ID в целое число
+		// user_id, err := strconv.Atoi(userId)
+		// if err != nil {
+		// 	log.Println("Ошибка преобразования idStr в int:", err)
+		// 	c.JSON(http.StatusBadRequest, gin.H{"error": "Некорректный ID пользователя"})
+		// 	return
+		// }
+		// // Преобразуем ID в целое число
+		// product_id, err := strconv.Atoi(productId)
+		// if err != nil {
+		// 	log.Println("Ошибка преобразования idStr в int:", err)
+		// 	c.JSON(http.StatusBadRequest, gin.H{"error": "Некорректный ID продукта"})
+		// 	return
+		// }
+
+		// Выполняем запрос к базе данных
+		var isFavourite bool
+		err := db.Get(&isFavourite, "select $1 in (select product_id from favourites where user_id = $2)", productId, userId)
+		if err != nil {
+			log.Println("Ошибка запроса к базе данных:", err)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка получения статуса избранного продукта"})
+			return
+		}
+
+		// Отправляем ответ
+		c.JSON(http.StatusOK, isFavourite)
+	}
+}
+
 func AddToFavourites(db *sqlx.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userId := c.Param("userId")

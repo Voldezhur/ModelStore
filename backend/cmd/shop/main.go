@@ -57,6 +57,7 @@ func main() {
 
 	// Роуты для избранного
 	router.GET("/favourites/:id", handlers.GetFavourites(db))
+	router.GET("/favourites/check/:userId/:productId", handlers.CheckIsFavourite(db))
 	router.POST("/favourites/:userId", handlers.AddToFavourites(db))
 	router.DELETE("/favourites/:userId/:productId", handlers.RemoveFromFavourites(db))
 
