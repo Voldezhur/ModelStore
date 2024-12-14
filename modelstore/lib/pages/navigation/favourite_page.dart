@@ -35,6 +35,16 @@ class _FavouritePageState extends State<FavouritePage> {
     });
   }
 
+  // Добавление продукта в корзину
+  void _addToCart(productId) {
+    ApiService().addtoCart(
+      {
+        'product_id': productId,
+        'quantity': 1,
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,7 +91,10 @@ class _FavouritePageState extends State<FavouritePage> {
                 // Отрисовка карточек не отправляет дополнительных запросов
                 // Запросы для отдельных товаров отправляются только на странице самого товара
                 return ItemCard(
-                    item: modelList[index], removeItem: _removeItem);
+                  item: modelList[index],
+                  removeItem: _removeItem,
+                  addToCart: _addToCart,
+                );
               });
         },
       ),

@@ -5,10 +5,16 @@ import 'package:modelstore/pages/items/item_page.dart';
 import 'package:modelstore/utilities/api_handling/api_service.dart';
 
 class ItemCard extends StatefulWidget {
-  const ItemCard({super.key, required this.item, required this.removeItem});
+  const ItemCard({
+    super.key,
+    required this.item,
+    required this.removeItem,
+    required this.addToCart,
+  });
 
   final Item item;
   final Function removeItem;
+  final Function addToCart;
 
   @override
   State<ItemCard> createState() => _ItemCardState();
@@ -120,14 +126,6 @@ class _ItemCardState extends State<ItemCard> {
                               color: Colors.white, fontSize: 20),
                         ),
                       ),
-                      // // ID создателя
-                      // SizedBox(
-                      //     width: MediaQuery.of(context).size.width * 0.4,
-                      //     child: Text(
-                      //       widget.item.creatorId.toString(),
-                      //       style: const TextStyle(
-                      //           color: Colors.white, fontSize: 11),
-                      //     )),
                       const SizedBox(
                         height: 20,
                       ),
@@ -135,11 +133,25 @@ class _ItemCardState extends State<ItemCard> {
                         "Стоимость: ${widget.item.price}",
                         style: const TextStyle(color: Colors.white),
                       ),
-                      IconButton(
-                        onPressed: _toggleFavourite,
-                        icon: Icon(isFavourite
-                            ? Icons.favorite
-                            : Icons.favorite_border),
+                      // Кнопки
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          // Избранное
+                          IconButton(
+                            onPressed: _toggleFavourite,
+                            icon: Icon(
+                              isFavourite
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                            ),
+                          ),
+                          // Добавить в корзину
+                          IconButton(
+                              onPressed: () =>
+                                  widget.addToCart(widget.item.productId),
+                              icon: const Icon(Icons.add_shopping_cart))
+                        ],
                       )
                     ],
                   ),

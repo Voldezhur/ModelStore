@@ -304,7 +304,25 @@ class ApiService {
       );
       if (response.statusCode != 200) {
         throw Exception(
-          'Failed to remove item from favourites, status code ${response.statusCode}',
+          'Failed to increment item, status code ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      throw Exception('could not add item: $e');
+    }
+  }
+
+  // Добавление продукта в корзину
+  // item: {product_id, quantity}
+  Future<void> addtoCart(item) async {
+    try {
+      var response = await dio.post(
+        '$url/cart/${currentUser!.userId}',
+        data: item,
+      );
+      if (response.statusCode != 200) {
+        throw Exception(
+          'Failed to add item to cart, status code ${response.statusCode}',
         );
       }
     } catch (e) {
