@@ -56,7 +56,7 @@ class _MainPageState extends State<MainPage> {
               Icons.shopping_cart,
               color: Colors.white,
             ),
-            label: 'Избранное',
+            label: 'Корзина',
           ),
           BottomNavigationBarItem(
             icon: Icon(

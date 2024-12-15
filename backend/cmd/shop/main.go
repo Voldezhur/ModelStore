@@ -54,6 +54,7 @@ func main() {
 	router.GET("/cart/:id", handlers.GetCart(db))
 	router.POST("/cart/:userId", handlers.AddToCart(db))
 	router.DELETE("/cart/:userId/:productId", handlers.RemoveFromCart(db))
+	router.DELETE("/cart/clear/:userId", handlers.ClearCart(db))
 
 	// Роуты для избранного
 	router.GET("/favourites/:id", handlers.GetFavourites(db))

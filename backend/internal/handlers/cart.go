@@ -96,3 +96,15 @@ func RemoveFromCart(db *sqlx.DB) gin.HandlerFunc {
 		c.JSON(http.StatusOK, gin.H{"message": "Товар удален из корзины"})
 	}
 }
+
+func ClearCart(db *sqlx.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		userId := c.Param("userId")
+		_, err := db.Exec("DELETE FROM Cart WHERE user_id = $1", userId)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка очистки корзины"})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"message": "Корзина очищена"})
+	}
+}

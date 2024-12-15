@@ -220,7 +220,7 @@ class ApiService {
         );
       }
     } catch (e) {
-      throw Exception('could not add item: $e');
+      throw Exception('could not remove item: $e');
     }
   }
 
@@ -261,7 +261,7 @@ class ApiService {
         throw Exception('Failed to load items');
       }
     } catch (e) {
-      throw Exception('could not add item: $e');
+      throw Exception('Error fetching items: $e');
     }
   }
 
@@ -272,18 +272,19 @@ class ApiService {
           await dio.delete('$url/cart/${currentUser!.userId}/$itemId');
       if (response.statusCode != 200) {
         throw Exception(
-          'Failed to remove item from favourites, status code ${response.statusCode}',
+          'Failed to remove item from cart, status code ${response.statusCode}',
         );
       }
     } catch (e) {
-      throw Exception('could not add item: $e');
+      throw Exception('could not remove item: $e');
     }
   }
 
   // Увеличение или уменьшение количества продукта в корзине
   // item: {product_id, quantity}
   // adding: bool. true - увеличение, false - уменьшение
-  Future<void> incrementCartItem(item, adding) async {
+  // Возвращает true, если объект был удален и false, если нет
+  Future<bool> incrementCartItem(item, adding) async {
     try {
       // Проверка увеличение / уменьшение
       int amount;
@@ -293,9 +294,9 @@ class ApiService {
         amount = item['quantity'] - 1;
       }
 
-      if (item['quantity'] <= 0) {
-        removeCartItem(item['product_id']);
-        return;
+      if (amount <= 0) {
+        await removeCartItem(item['product_id']);
+        return true;
       }
 
       var response = await dio.post(
@@ -307,6 +308,7 @@ class ApiService {
           'Failed to increment item, status code ${response.statusCode}',
         );
       }
+      return false;
     } catch (e) {
       throw Exception('could not add item: $e');
     }
@@ -327,6 +329,43 @@ class ApiService {
       }
     } catch (e) {
       throw Exception('could not add item: $e');
+    }
+  }
+
+  // Удаление продукта из корзины
+  Future<void> clearCart() async {
+    try {
+      var response = await dio.delete('$url/cart/clear/${currentUser!.userId}');
+      if (response.statusCode != 200) {
+        throw Exception(
+          'Failed to clear cart, status code ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      throw Exception('could not clear cart: $e');
+    }
+  }
+
+  // Добавление заказа
+  // products: [{"product_id", "stock"}]
+  Future<void> placeOrder(total, status, products) async {
+    try {
+      var response = await dio.post(
+        '$url/orders/${currentUser!.userId}',
+        data: {
+          "user_id": currentUser!.userId,
+          "total": total,
+          "status": status,
+          "products": products
+        },
+      );
+      if (response.statusCode != 201) {
+        throw Exception(
+          'Failed to place order, status code ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      throw Exception('could not place order: $e');
     }
   }
 }

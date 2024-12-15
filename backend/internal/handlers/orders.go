@@ -1,16 +1,15 @@
 package handlers
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/jmoiron/sqlx"
 	"log"
 	"net/http"
 	"shopApi/internal/models"
 	"strconv"
 	"strings"
+
+	"github.com/gin-gonic/gin"
+	"github.com/jmoiron/sqlx"
 )
-
-
 
 // GetOrders godoc
 // @Summary Get user orders
@@ -84,8 +83,8 @@ func CreateOrder(db *sqlx.DB) gin.HandlerFunc {
 
 		// Вставляем заказ в таблицу orders
 		queryOrder := `
-			INSERT INTO orders (user_id, total, status, created_at)
-			VALUES (:user_id, :total, :status, :created_at)
+			INSERT INTO orders (user_id, total, status)
+			VALUES (:user_id, :total, :status)
 			RETURNING order_id
 		`
 		rows, err := tx.NamedQuery(queryOrder, &order)
@@ -108,7 +107,7 @@ func CreateOrder(db *sqlx.DB) gin.HandlerFunc {
 			productData := map[string]interface{}{
 				"order_id":   order.OrderID,
 				"product_id": product.ProductID,
-				// "quantity":   product.Stock, // Здесь quantity (например, 1, 2 и т.д.) нужно передать из тела запроса
+				"quantity":   product.Stock, // Здесь quantity (например, 1, 2 и т.д.) нужно передать из тела запроса
 			}
 			_, err := tx.NamedExec(queryProducts, productData)
 			if err != nil {
@@ -128,5 +127,3 @@ func CreateOrder(db *sqlx.DB) gin.HandlerFunc {
 		c.JSON(http.StatusCreated, order)
 	}
 }
-
-
