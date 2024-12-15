@@ -196,3 +196,38 @@ func DeleteProduct(db *sqlx.DB) gin.HandlerFunc {
 		c.JSON(http.StatusOK, gin.H{"message": "Продукт успешно удален"})
 	}
 }
+
+// Получение списка всех продуктов с фильтром на название
+func GetProductsFiltered(db *sqlx.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var filter models.ItemFilter
+
+		if err := c.ShouldBindJSON(&filter); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Некорректные данные"})
+			return
+		}
+
+		// Строим запрос
+		query := "select * from product"
+		// Если совершен поиск
+		if filter.NameFilter != "" {
+			query += (" where name ~* '" + filter.NameFilter + "'")
+		}
+		// Если совершена сортировка
+		if filter.Sort != "" {
+			query += (" order by " + filter.Sort + "")
+		}
+
+		// Получаем данные из бд
+		var products []models.Product
+		err := db.Select(&products, query)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error":   "Ошибка получения списка продуктов",
+				"details": err.Error(), // Логирование деталей ошибки
+			})
+			return
+		}
+		c.JSON(http.StatusOK, products)
+	}
+}

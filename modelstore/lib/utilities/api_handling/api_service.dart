@@ -33,6 +33,35 @@ class ApiService {
     }
   }
 
+  // Получить список всех продуктов с фильтрами
+  // Возвращает список объектов класса Item
+  Future<List<Item>> getProductsFiltered(nameFilter, sort) async {
+    try {
+      final response = await dio.get(
+        '$url/products/filtered',
+        data: {'name_filter': nameFilter, 'sort': sort},
+      );
+      if (response.statusCode == 200) {
+        // Получаем ответ с бекенда
+        var res = response.data;
+
+        // Переводим полученный JSON в список продуктов
+        // Если получаем null - возвращаем пустой список
+        List<Item> items = res == null
+            ? []
+            : (response.data as List)
+                .map((item) => Item.fromJson(item))
+                .toList();
+
+        return items;
+      } else {
+        throw Exception('Failed to load items');
+      }
+    } catch (e) {
+      throw Exception('Error fetching items: $e');
+    }
+  }
+
   // Получить продукт по ID
   // Возвращает объект класса Item
   Future<Item> getProductById(id) async {

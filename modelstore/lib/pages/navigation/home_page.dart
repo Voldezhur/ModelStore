@@ -15,6 +15,11 @@ class _HomePageState extends State<HomePage> {
   late Future<List<Item>> itemList; // Список товаров
   String title = 'Главная'; // Заголовок AppBar
 
+  var searchController = TextEditingController();
+
+  String search = '';
+  String filter = '';
+
   @override
   void initState() {
     // Получаем список всех товаров из бекенда
@@ -55,6 +60,14 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  // Осуществление поиска и сортировки
+  void _getProductsFiltered() {
+    setState(() {
+      search = searchController.text;
+      itemList = ApiService().getProductsFiltered(search, filter);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,23 +102,103 @@ class _HomePageState extends State<HomePage> {
           // Записываем эти данные в список и строим GridView
           final modelList = snapshot.data!;
 
-          return GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: (MediaQuery.of(context).size.width) /
-                    (MediaQuery.of(context).size.height / 1.2),
+          return Column(
+            children: [
+              // Поиск и сортировка
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  margin: const EdgeInsets.fromLTRB(8, 16, 8, 16),
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Строка поиска
+                      Container(
+                        width: MediaQuery.sizeOf(context).width * 0.5,
+                        padding: const EdgeInsets.all(16),
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                        ),
+                        child: TextField(
+                          controller: searchController,
+                          decoration: const InputDecoration(
+                            hintText: 'Поиск...',
+                            hintFadeDuration: Duration(milliseconds: 200),
+                          ),
+                        ),
+                      ),
+                      // Кнопка поиска
+                      IconButton(
+                        onPressed: _getProductsFiltered,
+                        icon: const Icon(Icons.search),
+                      ),
+                      // Кнопка сортировки - открывает меню
+                      PopupMenuButton(
+                        itemBuilder: (context) => [
+                          const PopupMenuItem(
+                            value: 1,
+                            child: Text('По стоимости по возрастанию'),
+                          ),
+                          const PopupMenuItem(
+                            value: 2,
+                            child: Text('По стоимости по убыванию'),
+                          ),
+                          const PopupMenuItem(
+                            value: 3,
+                            child: Text('В алфавитном порядке'),
+                          ),
+                          const PopupMenuItem(
+                            value: 4,
+                            child: Text('Сбросить фильтр'),
+                          ),
+                        ],
+                        onSelected: (value) {
+                          switch (value) {
+                            case 1:
+                              filter = 'price asc';
+                              break;
+                            case 2:
+                              filter = 'price desc';
+                              break;
+                            case 3:
+                              filter = 'name';
+                              break;
+                            default:
+                              filter = '';
+                              break;
+                          }
+
+                          _getProductsFiltered();
+                        },
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              itemCount: modelList.length,
-              itemBuilder: (BuildContext context, int index) {
-                // Передаем полученный список и индекс даннйо карточки для отрисовки
-                // Отрисовка карточек не отправляет дополнительных запросов
-                // Запросы для отдельных товаров отправляются только на странице самого товара
-                return ItemCard(
-                  item: modelList[index],
-                  removeItem: _removeItem,
-                  addToCart: _addToCart,
-                );
-              });
+              // Карточки товаров
+              Expanded(
+                child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: (MediaQuery.of(context).size.width) /
+                          (MediaQuery.of(context).size.height / 1.2),
+                    ),
+                    itemCount: modelList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      // Передаем предмет для отрисовки
+                      return ItemCard(
+                        item: modelList[index],
+                        removeItem: _removeItem,
+                        addToCart: _addToCart,
+                      );
+                    }),
+              ),
+            ],
+          );
         },
       ),
       floatingActionButton: FloatingActionButton(

@@ -45,6 +45,7 @@ func main() {
 
 	// Роуты для продуктов
 	router.GET("/products", handlers.GetProducts(db))
+	router.GET("/products/filtered", handlers.GetProductsFiltered(db))
 	router.GET("/products/:id", handlers.GetProduct(db))
 	router.POST("/products", handlers.CreateProduct(db))
 	router.PUT("/products/:id", handlers.UpdateProduct(db))
