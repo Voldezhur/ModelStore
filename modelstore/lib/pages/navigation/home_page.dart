@@ -17,8 +17,8 @@ class _HomePageState extends State<HomePage> {
 
   var searchController = TextEditingController();
 
-  String search = '';
-  String filter = '';
+  String search = ''; // Запрос для поиска
+  String sort = ''; // сортировка списка
 
   @override
   void initState() {
@@ -63,8 +63,8 @@ class _HomePageState extends State<HomePage> {
   // Осуществление поиска и сортировки
   void _getProductsFiltered() {
     setState(() {
-      search = searchController.text;
-      itemList = ApiService().getProductsFiltered(search, filter);
+      search = searchController.text; // Получаем запрос из поля ввода
+      itemList = ApiService().getProductsFiltered(search, sort);
     });
   }
 
@@ -156,22 +156,24 @@ class _HomePageState extends State<HomePage> {
                             child: Text('Сбросить фильтр'),
                           ),
                         ],
+                        // Когда было выбрано действие
                         onSelected: (value) {
                           switch (value) {
                             case 1:
-                              filter = 'price asc';
+                              sort = 'price asc';
                               break;
                             case 2:
-                              filter = 'price desc';
+                              sort = 'price desc';
                               break;
                             case 3:
-                              filter = 'name';
+                              sort = 'name';
                               break;
                             default:
-                              filter = '';
+                              sort = '';
                               break;
                           }
 
+                          // Обновляем список товаров после фильтрации
                           _getProductsFiltered();
                         },
                       ),
