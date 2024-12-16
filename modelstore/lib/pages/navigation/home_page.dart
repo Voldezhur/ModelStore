@@ -131,51 +131,57 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                      // Кнопка поиска
-                      IconButton(
-                        onPressed: _getProductsFiltered,
-                        icon: const Icon(Icons.search),
-                      ),
-                      // Кнопка сортировки - открывает меню
-                      PopupMenuButton(
-                        itemBuilder: (context) => [
-                          const PopupMenuItem(
-                            value: 1,
-                            child: Text('По стоимости по возрастанию'),
+                      // Кнопки
+                      Row(
+                        children: [
+                          // Кнопка поиска
+                          IconButton(
+                            onPressed: _getProductsFiltered,
+                            icon: const Icon(Icons.search),
                           ),
-                          const PopupMenuItem(
-                            value: 2,
-                            child: Text('По стоимости по убыванию'),
-                          ),
-                          const PopupMenuItem(
-                            value: 3,
-                            child: Text('В алфавитном порядке'),
-                          ),
-                          const PopupMenuItem(
-                            value: 4,
-                            child: Text('Сбросить фильтр'),
+                          // Кнопка сортировки - открывает меню
+                          PopupMenuButton(
+                            icon: const Icon(Icons.sort),
+                            itemBuilder: (context) => [
+                              const PopupMenuItem(
+                                value: 1,
+                                child: Text('По стоимости по возрастанию'),
+                              ),
+                              const PopupMenuItem(
+                                value: 2,
+                                child: Text('По стоимости по убыванию'),
+                              ),
+                              const PopupMenuItem(
+                                value: 3,
+                                child: Text('В алфавитном порядке'),
+                              ),
+                              const PopupMenuItem(
+                                value: 4,
+                                child: Text('Сбросить фильтр'),
+                              ),
+                            ],
+                            // Когда было выбрано действие
+                            onSelected: (value) {
+                              switch (value) {
+                                case 1:
+                                  sort = 'price asc';
+                                  break;
+                                case 2:
+                                  sort = 'price desc';
+                                  break;
+                                case 3:
+                                  sort = 'name';
+                                  break;
+                                default:
+                                  sort = '';
+                                  break;
+                              }
+
+                              // Обновляем список товаров после фильтрации
+                              _getProductsFiltered();
+                            },
                           ),
                         ],
-                        // Когда было выбрано действие
-                        onSelected: (value) {
-                          switch (value) {
-                            case 1:
-                              sort = 'price asc';
-                              break;
-                            case 2:
-                              sort = 'price desc';
-                              break;
-                            case 3:
-                              sort = 'name';
-                              break;
-                            default:
-                              sort = '';
-                              break;
-                          }
-
-                          // Обновляем список товаров после фильтрации
-                          _getProductsFiltered();
-                        },
                       ),
                     ],
                   ),
