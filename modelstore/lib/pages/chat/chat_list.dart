@@ -46,18 +46,22 @@ class _ChatListState extends State<ChatList> {
 
     // Проверка, чтобы не отображать уже авторизованного пользователя
     if (data['email'] != currentUser!.email) {
-      return ListTile(
-        title: Text(data['email']),
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ChatPage(
-                  recipientEmail: data['email'],
-                  recipientId: data['uid'],
-                ),
-              ));
-        },
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListTile(
+          tileColor: Theme.of(context).primaryColor,
+          title: Text(data['email']),
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ChatPage(
+                    recipientEmail: data['email'],
+                    recipientId: data['uid'],
+                  ),
+                ));
+          },
+        ),
       );
     }
     return Container();

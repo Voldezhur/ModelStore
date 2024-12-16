@@ -78,40 +78,53 @@ class _ChatPageState extends State<ChatPage> {
 
     // Сообщения ставим у левого или правого края экрана,
     // В зависимости от того, отправил сообщение сам пользователь или собеседник
-    var alignment = (data['senderId'] == _firebaseAuth.currentUser!.uid) ? Alignment.centerRight : Alignment.centerLeft;
+    var isSender = data['senderId'] == _firebaseAuth.currentUser!.uid;
+    var alignment = isSender ? Alignment.centerRight : Alignment.centerLeft;
 
-    return Container(
+    return Align(
       alignment: alignment,
-      child: Column(
-        children: [
-          Text(data['senderEmail']),
-          Text(data['message']),
-        ],
+      child: Container(
+        margin: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: isSender ? Theme.of(context).indicatorColor : Theme.of(context).primaryColor,
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+        ),
+        child: Text(
+          data['message'],
+          style: TextStyle(
+            fontSize: 16,
+            color: isSender ? Colors.black : Colors.white,
+          ),
+        ),
       ),
     );
   }
 
   // Ввод пользователя
   Widget _buildMessageInput() {
-    return Row(
-      children: [
-        // Ввод
-        Expanded(
-          child: TextField(
-            controller: messageController,
-            obscureText: false,
-            decoration: const InputDecoration(
-              hintText: 'Сообщение',
-              hintFadeDuration: Duration(milliseconds: 200),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(32, 8, 32, 8),
+      child: Row(
+        children: [
+          // Ввод
+          Expanded(
+            child: TextField(
+              controller: messageController,
+              obscureText: false,
+              decoration: const InputDecoration(
+                hintText: 'Сообщение',
+                hintFadeDuration: Duration(milliseconds: 200),
+              ),
             ),
           ),
-        ),
-        // Кнопка отправления
-        IconButton(
-          onPressed: _sendMessage,
-          icon: const Icon(Icons.send),
-        ),
-      ],
+          // Кнопка отправления
+          IconButton(
+            onPressed: _sendMessage,
+            icon: const Icon(Icons.send),
+          ),
+        ],
+      ),
     );
   }
 }
