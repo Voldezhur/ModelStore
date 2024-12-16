@@ -1,25 +1,27 @@
-# Программирование корпоративных систем
-Дисциплина: **Программирование корпоративных систем** <br>
-Семестр: 5 <br>
-Работы выполнил студент **ЭФБО-02-22 Журавлев Владимир Андреевич** <br>
-# Ссылки на работы
-Работы до 6 в отдельных репозиториях
-Работы от 6 до 9 в другом репозитории
-| Номер<br>Практики | Ссылка на ветку |
-|:---:|---|
-| 1 | [Ссылка на репозиторий](https://github.com/Voldezhur/FlutterApp.git) |
-| 2 | [Ссылка на репозиторий](https://github.com/Voldezhur/flutterAuthApp) |
-| 3 | [Ссылка на репозиторий](https://github.com/Voldezhur/flutterMarketTest) |
-| 4 | [Ссылка на репозиторий](https://github.com/Voldezhur/flutterPractice4) |
-| 5 | [Ссылка на репозиторий](https://github.com/Voldezhur/flutterPractice5) |
-| 6 | [Ссылка на ветку](https://github.com/Voldezhur/FlutterTestingGrounds/tree/Practice6) |
-| 7 | [Ссылка на ветку](https://github.com/Voldezhur/FlutterTestingGrounds/tree/Practice7) |
-| 8 | [Ссылка на ветку](https://github.com/Voldezhur/FlutterTestingGrounds/tree/Practice8) |
-| 9 | [Ссылка на ветку](https://github.com/Voldezhur/FlutterTestingGrounds/tree/Practice9) |
-| 10 | [Ссылка на ветку](https://github.com/Voldezhur/ModelStore/tree/Practice10) |
-| 11 | [Ссылка на ветку](https://github.com/Voldezhur/ModelStore/tree/Practice11) |
-| 12 | [Ссылка на ветку](https://github.com/Voldezhur/ModelStore/tree/Practice12) |
-| 13 | [Ссылка на ветку](https://github.com/Voldezhur/ModelStore/tree/Practice13) |
-| 14 | [Ссылка на ветку](https://github.com/Voldezhur/ModelStore/tree/Practice14) |
-| 15 | [Ссылка на ветку](https://github.com/Voldezhur/ModelStore/tree/Practice15) |
-| 16 | [Ссылка на ветку](https://github.com/Voldezhur/ModelStore/tree/Practice16) |
+# Программирование корпоративных систем практика 14-15 Журавлев Владимир ЭФБО-02-22
+
+Целью 14 и 15 практик являлось создание чата с продавцом. Это означает, что один пользователь является администратором со способностью принимать сообщения от других пользователей, а остальные пользователи могут напрямую общаться только с администратором
+
+Реализовано это было с помощью Firebase, а также туториала [по ссылке](https://www.youtube.com/watch?v=mBBycL0EtBQ&t=1930s&ab_channel=MitchKoko)
+
+Логика чата находится в папке utilities/firebase, интерфейс в папке pages/chat
+
+Профиль администратора
+
+![alt text](images/image.png)
+
+Список всех чатов
+
+![alt text](images/image-1.png)
+
+Чат с пользователем
+
+![alt text](images/image-2.png)
+
+Профиль  обычного пользователя
+
+![alt text](images/image-3.png)
+
+Чат с администрацией
+
+![alt text](images/image-4.png)
