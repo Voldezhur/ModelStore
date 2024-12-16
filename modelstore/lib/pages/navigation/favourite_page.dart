@@ -82,8 +82,7 @@ class _FavouritePageState extends State<FavouritePage> {
           return GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: (MediaQuery.of(context).size.width) /
-                    (MediaQuery.of(context).size.height / 1.2),
+                childAspectRatio: (MediaQuery.of(context).size.width) / (MediaQuery.of(context).size.height / 1.2),
               ),
               itemCount: modelList.length,
               itemBuilder: (BuildContext context, int index) {

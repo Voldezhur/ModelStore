@@ -186,8 +186,7 @@ class _HomePageState extends State<HomePage> {
                 child: GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: (MediaQuery.of(context).size.width) /
-                          (MediaQuery.of(context).size.height / 1.2),
+                      childAspectRatio: (MediaQuery.of(context).size.width) / (MediaQuery.of(context).size.height / 1.2),
                     ),
                     itemCount: modelList.length,
                     itemBuilder: (BuildContext context, int index) {

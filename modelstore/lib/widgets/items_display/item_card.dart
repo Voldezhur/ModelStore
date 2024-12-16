@@ -43,8 +43,7 @@ class _ItemCardState extends State<ItemCard> {
 
   // Проверка, является ли товар любимым
   void _checkIsFavourite() async {
-    final res = await ApiService()
-        .checkIsFavourite(currentUser!.userId, widget.item.productId);
+    final res = await ApiService().checkIsFavourite(currentUser!.userId, widget.item.productId);
 
     setState(() {
       isFavourite = res;
@@ -122,8 +121,7 @@ class _ItemCardState extends State<ItemCard> {
                           widget.item.name,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 20),
+                          style: const TextStyle(color: Colors.white, fontSize: 20),
                         ),
                       ),
                       const SizedBox(
@@ -141,16 +139,11 @@ class _ItemCardState extends State<ItemCard> {
                           IconButton(
                             onPressed: _toggleFavourite,
                             icon: Icon(
-                              isFavourite
-                                  ? Icons.favorite
-                                  : Icons.favorite_border,
+                              isFavourite ? Icons.favorite : Icons.favorite_border,
                             ),
                           ),
                           // Добавить в корзину
-                          IconButton(
-                              onPressed: () =>
-                                  widget.addToCart(widget.item.productId),
-                              icon: const Icon(Icons.add_shopping_cart))
+                          IconButton(onPressed: () => widget.addToCart(widget.item.productId), icon: const Icon(Icons.add_shopping_cart))
                         ],
                       )
                     ],

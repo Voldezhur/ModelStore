@@ -43,17 +43,51 @@ class _ItemPageState extends State<ItemPage> {
         return Scaffold(
           appBar: AppBar(
             title: Text(item.name),
-          ),
-          body: Column(
-            children: [
-              item.creatorId == currentUser!.userId
-                  ? ElevatedButton(
+            actions: item.creatorId == currentUser!.userId
+                ? [
+                    IconButton(
                       onPressed: () => Navigator.pop(context, true),
-                      child: const Text('Удалить'),
-                    )
-                  : Container(),
-              Text(item.creatorUsername),
-            ],
+                      icon: const Icon(Icons.delete),
+                    ),
+                  ]
+                : [],
+          ),
+          body: Center(
+            child: Column(
+              children: [
+                // item.creatorId == currentUser!.userId
+                //     ? ElevatedButton(
+                //         onPressed: () => Navigator.pop(context, true),
+                //         child: const Text('Удалить'),
+                //       )
+                //     : Container(),
+                // Картинка
+                Container(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+                  margin: const EdgeInsets.only(bottom: 32),
+                  height: MediaQuery.sizeOf(context).height * 0.3,
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(color: Colors.white),
+                    ),
+                  ),
+                  child: Image.network(item.imageUrl),
+                ),
+                // Создатель
+                Text(
+                  'Создатель: ${item.creatorUsername}',
+                  style: const TextStyle(fontSize: 14),
+                ),
+                // Описание
+                SizedBox(
+                  height: MediaQuery.sizeOf(context).height * 0.05,
+                ),
+                Text(
+                  item.description,
+                  style: const TextStyle(fontSize: 21),
+                ),
+              ],
+            ),
           ),
         );
       },
