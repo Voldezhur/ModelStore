@@ -20,6 +20,6 @@
 | 11 | [Ссылка на ветку](https://github.com/Voldezhur/ModelStore/tree/Practice11) |
 | 12 | [Ссылка на ветку](https://github.com/Voldezhur/ModelStore/tree/Practice12) |
 | 13 | [Ссылка на ветку](https://github.com/Voldezhur/ModelStore/tree/Practice13) |
-| 14 | [Ссылка на ветку](https://github.com/Voldezhur/ModelStore/tree/Practice14) |
-| 15 | [Ссылка на ветку](https://github.com/Voldezhur/ModelStore/tree/Practice15) |
+| 14 | [Ссылка на ветку](https://github.com/Voldezhur/ModelStore/tree/Practice14-15) |
+| 15 | [Ссылка на ветку](https://github.com/Voldezhur/ModelStore/tree/Practice14-15) |
 | 16 | [Ссылка на ветку](https://github.com/Voldezhur/ModelStore/tree/Practice16) |
