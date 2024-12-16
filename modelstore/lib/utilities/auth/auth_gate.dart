@@ -7,12 +7,12 @@
 
 */
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modelstore/models/user.dart';
 import 'package:modelstore/pages/auth/login_page.dart';
 import 'package:modelstore/pages/main_page.dart';
 import 'package:modelstore/utilities/api_handling/api_service.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});
@@ -28,24 +28,16 @@ class AuthGate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: Supabase.instance.client.auth.onAuthStateChange,
+      stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
-        // Загрузка
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
+        // Если пользователь авторизован
+        if (snapshot.hasData) {
+          _updateUser(true, email: snapshot.data!.email!);
+          return const MainPage();
         }
 
-        // Если имеется сессия на данный момент
-        final session = snapshot.hasData ? snapshot.data!.session : null;
-
-        if (session != null) {
-          _updateUser(true, email: snapshot.data!.session!.user.email!);
-          return const MainPage();
-        } else {
+        // Если нет авторизованного пользователя
+        else {
           _updateUser(false);
           return const LoginPage();
         }

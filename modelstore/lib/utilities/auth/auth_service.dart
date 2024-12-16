@@ -1,22 +1,25 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modelstore/utilities/api_handling/api_service.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthService {
-  final SupabaseClient _supabase = Supabase.instance.client;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   // Sign in email password
-  Future<AuthResponse> signInEmailPassword(
-      String email, String password) async {
-    return await _supabase.auth
-        .signInWithPassword(email: email, password: password);
+  Future<UserCredential> signInEmailPassword(String email, String password) async {
+    try {
+      // Попытка авторизации
+      UserCredential userCredential = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+
+      return userCredential;
+    } on FirebaseAuthException catch (e) {
+      throw Exception(e.code);
+    }
   }
 
   // Sign up email password
-  Future<AuthResponse> createUser(
-      String username, String email, String password) async {
-    // Сначала пробуем зарегистрироваться в supabase
-    var response =
-        await _supabase.auth.signUp(email: email, password: password);
+  Future<UserCredential> createUser(String username, String email, String password) async {
+    // Сначала пробуем зарегистрироваться в firebase
+    var response = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
 
     // Если регистрация прошла,
     // Добавляем запись о пользователе в БД Postgres
@@ -30,13 +33,6 @@ class AuthService {
 
   // Sign out
   Future<void> signOut() async {
-    await _supabase.auth.signOut();
-  }
-
-  // Get user email
-  String? getCurrentUserEmail() {
-    final session = _supabase.auth.currentSession;
-    final user = session?.user;
-    return user?.email;
+    await _firebaseAuth.signOut();
   }
 }
