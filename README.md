@@ -7,17 +7,17 @@
 
 ## Таблицы БД:
 Корзины
-![alt text](image-1.png)
+![alt text](images/image-1.png)
 Любимые товары
-![alt text](image-2.png)
+![alt text](images/image-2.png)
 Товары в заказе
-![alt text](image-3.png)
+![alt text](images/image-3.png)
 Заказы
-![alt text](image-4.png)
+![alt text](images/image-4.png)
 Продукты
-![alt text](image-5.png)
+![alt text](images/image-5.png)
 Пользователи
-![alt text](image-6.png)
+![alt text](images/image-6.png)
 
 В таблице польователей не хранится пароль пользователя, за это отвечает firebase. Эта таблица нужна была для связи firebase с postgres
 
@@ -28,37 +28,37 @@
 Ниже показаны скриншоты работы приложения с БД с описанием
 
 Регистрация нового пользователя - добавляет запись о пользователе в БД
-![alt text](image-7.png)
+![alt text](images/image-7.png)
 
 Профиль пользователя - после авторизации подгружаются актуальные данные о пользователе
-![alt text](image-8.png)
+![alt text](images/image-8.png)
 
 Список всех товаров подгружается с БД
-![alt text](image-9.png)
+![alt text](images/image-9.png)
 
 Страница товара - информация подгружается по id товара
-![alt text](image-10.png)
+![alt text](images/image-10.png)
 
 Добавление новой модели
-![alt text](image-11.png)
+![alt text](images/image-11.png)
 
 Список после добавления
-![alt text](image-12.png)
+![alt text](images/image-12.png)
 
 Список избранных моделей после добавления модели в избранное
-![alt text](image-13.png)
+![alt text](images/image-13.png)
 
 Список избранных моделей после того, как убрали модель из избранных
-![alt text](image-14.png)
+![alt text](images/image-14.png)
 
 Добавление модели в корзину
-![alt text](image-15.png)
+![alt text](images/image-15.png)
 
 Удаление модели из корзины
-![alt text](image-16.png)
+![alt text](images/image-16.png)
 
 Запись о новом заказе в БД
-![alt text](image-17.png)
+![alt text](images/image-17.png)
 
 Продукты в новом заказе
-![alt text](image-18.png)
+![alt text](images/image-18.png)
