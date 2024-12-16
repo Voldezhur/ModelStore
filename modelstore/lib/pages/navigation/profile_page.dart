@@ -76,7 +76,7 @@ class _MyWidgetState extends State<ProfilePage> {
                       ? const Text(
                           'Открыть чат',
                         )
-                      : const Text('Открыть  чать с администрацией'),
+                      : const Text('Открыть чат с администрацией'),
                 )
               ],
             ),
