@@ -5,7 +5,7 @@ import 'package:modelstore/models/user.dart';
 
 class ApiService {
   final Dio dio = Dio();
-  final url = 'http://10.0.2.2:8080';
+  final url = 'http://195.43.142.156:8080';
 
   // Получить список всех продуктов
   // Возвращает список объектов класса Item
@@ -18,11 +18,7 @@ class ApiService {
 
         // Переводим полученный JSON в список продуктов
         // Если получаем null - возвращаем пустой список
-        List<Item> items = res == null
-            ? []
-            : (response.data as List)
-                .map((item) => Item.fromJson(item))
-                .toList();
+        List<Item> items = res == null ? [] : (response.data as List).map((item) => Item.fromJson(item)).toList();
 
         return items;
       } else {
@@ -47,11 +43,7 @@ class ApiService {
 
         // Переводим полученный JSON в список продуктов
         // Если получаем null - возвращаем пустой список
-        List<Item> items = res == null
-            ? []
-            : (response.data as List)
-                .map((item) => Item.fromJson(item))
-                .toList();
+        List<Item> items = res == null ? [] : (response.data as List).map((item) => Item.fromJson(item)).toList();
 
         return items;
       } else {
@@ -187,11 +179,7 @@ class ApiService {
 
         // Переводим полученный JSON в список продуктов
         // Если получаем null - возвращаем пустой список
-        List<Item> items = res == null
-            ? []
-            : (response.data as List)
-                .map((item) => Item.fromJson(item))
-                .toList();
+        List<Item> items = res == null ? [] : (response.data as List).map((item) => Item.fromJson(item)).toList();
 
         return items;
       } else {
@@ -206,8 +194,7 @@ class ApiService {
   // Возвращает bool
   Future<bool> checkIsFavourite(userId, productId) async {
     try {
-      final response =
-          await dio.get('$url/favourites/check/$userId/$productId');
+      final response = await dio.get('$url/favourites/check/$userId/$productId');
       if (response.statusCode == 200) {
         // Получаем ответ с с бекенда
         var res = response.data;
@@ -241,8 +228,7 @@ class ApiService {
   // Удалить продукт из любимого
   void removeFavourite(productId) async {
     try {
-      final response =
-          await dio.delete('$url/favourites/${currentUser!.userId}/$productId');
+      final response = await dio.delete('$url/favourites/${currentUser!.userId}/$productId');
       if (response.statusCode != 200) {
         throw Exception(
           'Failed to remove item from favourites, status code ${response.statusCode}',
@@ -297,8 +283,7 @@ class ApiService {
   // Удаление продукта из корзины
   Future<void> removeCartItem(itemId) async {
     try {
-      var response =
-          await dio.delete('$url/cart/${currentUser!.userId}/$itemId');
+      var response = await dio.delete('$url/cart/${currentUser!.userId}/$itemId');
       if (response.statusCode != 200) {
         throw Exception(
           'Failed to remove item from cart, status code ${response.statusCode}',
@@ -381,12 +366,7 @@ class ApiService {
     try {
       var response = await dio.post(
         '$url/orders/${currentUser!.userId}',
-        data: {
-          "user_id": currentUser!.userId,
-          "total": total,
-          "status": status,
-          "products": products
-        },
+        data: {"user_id": currentUser!.userId, "total": total, "status": status, "products": products},
       );
       if (response.statusCode != 201) {
         throw Exception(
